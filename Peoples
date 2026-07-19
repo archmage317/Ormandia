@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peoples of Ormandia — The Realm Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0cc;
+    --ink: #1a1410;
+    --ink-faded: #4a3f30;
+    --red: #8b1a1a;
+    --gold: #c9963a;
+    --gold-light: #e8c060;
+    --border: #b8a882;
+    --sidebar-bg: #ede8dc;
+    --link: #5c1f1f;
+    --teal: #2f5d5a;
+    --teal-light: #6fa8a3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--parchment); color: var(--ink); font-family: 'Crimson Text', serif; font-size: 17px; line-height: 1.7; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); }
+  #site-header { background: var(--ink); border-bottom: 3px solid var(--gold); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .site-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 600; color: var(--gold-light); text-decoration: none; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+  .header-nav { display: flex; gap: 20px; }
+  .header-nav a { color: var(--parchment-dark); text-decoration: none; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; opacity: 0.8; transition: opacity 0.2s, color 0.2s; }
+  .header-nav a:hover, .header-nav a.active { opacity: 1; color: var(--gold-light); }
+  #layout { display: grid; grid-template-columns: 220px 1fr 200px; gap: 0; max-width: 1280px; margin: 0 auto; min-height: calc(100vh - 56px); }
+  #sidebar-left { background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 24px 16px; font-size: 14px; }
+  #sidebar-left h4 { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faded); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .nav-section { margin-bottom: 24px; }
+  .nav-section ul { list-style: none; }
+  .nav-section ul li { margin-bottom: 5px; }
+  .nav-section ul li a { color: var(--link); text-decoration: none; font-family: 'Crimson Text', serif; font-size: 15px; line-height: 1.4; transition: color 0.2s; display: block; padding: 2px 4px; border-radius: 2px; }
+  .nav-section ul li a:hover { color: var(--red); background: rgba(139,26,26,0.06); }
+  .nav-section ul li a.active { font-weight: 600; color: var(--red); }
+  #main { padding: 32px 40px; border-right: 1px solid var(--border); }
+  .page-title { font-family: 'IM Fell English', serif; font-size: 42px; line-height: 1.1; color: var(--ink); margin-bottom: 4px; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+  .page-subtitle { font-style: italic; color: var(--ink-faded); font-size: 15px; margin-bottom: 24px; }
+  .toc { display: inline-block; background: var(--sidebar-bg); border: 1px solid var(--border); padding: 14px 20px; margin-bottom: 24px; min-width: 220px; }
+  .toc-title { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; margin-bottom: 8px; letter-spacing: 1px; }
+  .toc ol { padding-left: 18px; }
+  .toc li { margin-bottom: 3px; }
+  .toc a { color: var(--link); text-decoration: none; font-size: 14px; }
+  .toc a:hover { color: var(--red); text-decoration: underline; }
+  .article-section { margin-bottom: 32px; }
+  .article-section h2 { font-family: 'IM Fell English', serif; font-size: 26px; color: var(--ink); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 16px; }
+  .article-section h3 { font-family: 'Cinzel', serif; font-size: 15px; color: var(--ink-faded); margin-bottom: 8px; letter-spacing: 0.5px; }
+  p { margin-bottom: 14px; }
+  a.wikilink { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(92,31,31,0.3); transition: color 0.15s, border-color 0.15s; }
+  a.wikilink:hover { color: var(--red); border-bottom-color: var(--red); }
+  .divider { text-align: center; color: var(--gold); font-size: 20px; margin: 20px 0; letter-spacing: 8px; }
+
+  /* Comparison table */
+  .compare-wrap { overflow-x: auto; margin-bottom: 24px; border: 1px solid var(--border); }
+  table.compare { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--sidebar-bg); }
+  table.compare caption {
+    background: var(--ink); color: var(--gold-light); font-family: 'Cinzel', serif;
+    font-size: 13px; letter-spacing: 1px; padding: 8px 12px; text-align: left;
+  }
+  table.compare th, table.compare td { padding: 9px 14px; border-bottom: 1px solid var(--parchment-dark); border-right: 1px solid var(--parchment-dark); text-align: left; vertical-align: top; }
+  table.compare th { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-faded); background: var(--parchment-dark); }
+  table.compare td:first-child { font-weight: 600; }
+  table.compare tr:last-child td { border-bottom: none; }
+  table.compare th:last-child, table.compare td:last-child { border-right: none; }
+
+  /* Historical people blocks */
+  .lore-block {
+    border: 1px solid var(--border);
+    background: var(--sidebar-bg);
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    border-top: 3px solid var(--ink-faded);
+  }
+  .lore-block h3 {
+    font-family: 'IM Fell English', serif;
+    font-size: 21px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .lore-block p:last-child { margin-bottom: 0; }
+  .lore-tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    margin-bottom: 10px;
+  }
+
+  /* Culture profile cards */
+  .culture-profile {
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+    background: var(--sidebar-bg);
+    overflow: hidden;
+  }
+  .culture-profile.ormandish { border-top: 4px solid var(--gold); }
+  .culture-profile.garroni { border-top: 4px solid var(--teal); }
+  .culture-header {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to right, #2a1f10, #3a2c1a);
+  }
+  .culture-profile.garroni .culture-header { background: linear-gradient(to right, #15302e, #234846); }
+  .culture-emblem {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; border-right: 1px solid var(--gold);
+    background: rgba(0,0,0,0.2);
+  }
+  .culture-profile.garroni .culture-emblem { border-right-color: var(--teal-light); }
+  .culture-title-block { padding: 14px 20px; }
+  .culture-name { font-family: 'Cinzel', serif; font-size: 20px; color: var(--gold-light); font-weight: 600; letter-spacing: 1px; }
+  .culture-profile.garroni .culture-name { color: var(--teal-light); }
+  .culture-tagline { font-style: italic; color: var(--parchment-dark); font-size: 14px; opacity: 0.85; margin-top: 2px; }
+  .culture-body { padding: 16px 20px; font-size: 15.5px; }
+  .culture-meta { display: flex; flex-wrap: wrap; border-top: 1px solid var(--border); font-size: 13px; }
+  .culture-meta-item { flex: 1 1 25%; padding: 8px 12px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; min-width: 120px; }
+  .culture-meta-item:nth-child(4n) { border-right: none; }
+  .meta-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-faded); display: block; }
+  .meta-value { color: var(--ink); font-weight: 600; display: block; margin-top: 2px; }
+
+  .quote-block {
+    border-left: 3px solid var(--gold);
+    margin: 18px 0;
+    padding: 12px 20px;
+    background: rgba(201,150,58,0.07);
+    font-style: italic;
+    color: var(--ink-faded);
+  }
+  .culture-profile.garroni ~ .quote-block,
+  .quote-block.teal { border-left-color: var(--teal-light); background: rgba(47,93,90,0.07); }
+  .quote-block cite { display: block; margin-top: 6px; font-size: 13px; font-style: normal; color: var(--ink-faded); }
+
+  /* Minor peoples */
+  .minor-people {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 10px;
+  }
+  .minor-card {
+    border: 1px solid var(--border);
+    background: var(--sidebar-bg);
+    padding: 14px 18px;
+  }
+  .minor-card h3 { font-family: 'Cinzel', serif; font-size: 15px; color: var(--ink); letter-spacing: 0.5px; margin-bottom: 6px; border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
+  .minor-card p { font-size: 14.5px; margin-bottom: 0; }
+
+  #sidebar-right { padding: 24px 16px; font-size: 14px; }
+  .side-widget { background: var(--sidebar-bg); border: 1px solid var(--border); padding: 14px; margin-bottom: 20px; }
+  .side-widget h4 { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--red); margin-bottom: 10px; text-transform: uppercase; }
+  .side-widget ul { list-style: none; }
+  .side-widget ul li { padding: 5px 0; border-bottom: 1px solid var(--parchment-dark); font-size: 13px; color: var(--ink-faded); }
+  .side-widget ul li:last-child { border-bottom: none; }
+  .cat-link { display: block; background: var(--ink); color: var(--gold-light); text-decoration: none; padding: 8px 12px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; margin-bottom: 6px; transition: background 0.2s; border: 1px solid var(--gold); }
+  .cat-link:hover { background: var(--red); border-color: var(--red); }
+  #site-footer { background: var(--ink); color: var(--parchment-dark); text-align: center; padding: 24px; font-size: 13px; border-top: 3px solid var(--gold); }
+  #site-footer a { color: var(--gold-light); text-decoration: none; }
+  @media (max-width: 960px) {
+    #layout { grid-template-columns: 1fr; }
+    #sidebar-left, #sidebar-right { display: none; }
+    #main { padding: 24px 20px; }
+    .minor-people { grid-template-columns: 1fr; }
+    .culture-header { grid-template-columns: 56px 1fr; }
+    .culture-meta-item { flex: 1 1 50%; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <a href="index.html" class="site-logo"><span>⚜</span> The Realm Codex</a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="countries.html">Countries</a>
+    <a href="royal-houses.html">Royal Houses</a>
+    <a href="cultures.html" class="active">Cultures</a>
+  </nav>
+</header>
+
+<div id="layout">
+  <aside id="sidebar-left">
+    <div class="nav-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Main Page</a></li>
+        <li><a href="countries.html">Countries</a></li>
+        <li><a href="royal-houses.html">Royal Houses</a></li>
+        <li><a href="cultures.html" class="active">Cultures</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Historical Peoples</h4>
+      <ul>
+        <li><a href="#yurma">The Yurma Shepherd Tribes</a></li>
+        <li><a href="#tideborn">The Tideborn</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Contemporary Peoples</h4>
+      <ul>
+        <li><a href="#ormandish">The Ormandish</a></li>
+        <li><a href="#garroni">The Garroni</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Minor Peoples</h4>
+      <ul>
+        <li><a href="#emberkin">The Emberkin</a></li>
+        <li><a href="#fae">The Fae Peoples</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main id="main">
+    <h1 class="page-title">Peoples of Ormandia</h1>
+    <p class="page-subtitle"><em>From the Realm Codex, the free compendium of all knowledge pertaining to the Known World</em></p>
+
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#historical">Historical Peoples</a></li>
+        <li><a href="#contemporary">Contemporary Peoples</a></li>
+        <li><a href="#minor">Minor & Regional Peoples</a></li>
+        <li><a href="#relations">Cultural Relations & Tensions</a></li>
+      </ol>
+    </div>
+
+    <div class="article-section" id="overview">
+      <p>Though unified under a single political framework, the population of <a href="index.html" class="wikilink">Ormandia</a> is composed of several culturally and historically distinct peoples. The two largest contemporary groups — the <strong>Ormandish</strong> and the <strong>Garroni</strong> — differ sharply in social organization, religious practice, and relationship to centralized authority, and both trace their lineage to older peoples whose names survive chiefly in scholarly texts, place-names, and a handful of surviving customs.</p>
+
+      <p>This article surveys both the historical peoples whose migrations and conflicts shaped the foundations of the Realm, and the living cultures that continue to define Ormandian life today.</p>
+
+      <div class="compare-wrap">
+        <table class="compare">
+          <caption>Major Peoples of the Realm — At a Glance</caption>
+          <tr>
+            <th>People</th>
+            <th>Primary Regions</th>
+            <th>Population (est.)</th>
+            <th>Language</th>
+            <th>Predominant Faith</th>
+            <th>Social Structure</th>
+          </tr>
+          <tr>
+            <td><a href="#ormandish" class="wikilink">Ormandish</a></td>
+            <td>Valdenmere, Thorneshire, Ashenvale, Ironmark, Emberfall (settled regions), Sylmara (human population)</td>
+            <td>~11.5 million</td>
+            <td>Common; High Ormanic (formal)</td>
+            <td>Six-Fold Faith (orthodox)</td>
+            <td>Hereditary nobility &amp; bureaucracy</td>
+          </tr>
+          <tr>
+            <td><a href="#garroni" class="wikilink">Garroni</a></td>
+            <td>Western archipelagos; coastal "Free Ports" of Craedmoor</td>
+            <td>~1.4 million</td>
+            <td>Garroni Cant; Common (trade)</td>
+            <td>Six-Fold Faith (Garroni Rite, Sea-focused)</td>
+            <td>Ship-crews &amp; island holds (Wave-Captains, Tide-Mothers)</td>
+          </tr>
+          <tr>
+            <td><a href="#emberkin" class="wikilink">Emberkin</a></td>
+            <td>Eastern plateaus of Emberfall</td>
+            <td>~200,000</td>
+            <td>Common (Emberfall dialect)</td>
+            <td>Six-Fold Faith (Flame-focused)</td>
+            <td>Nomadic herding clans</td>
+          </tr>
+          <tr>
+            <td><a href="#fae" class="wikilink">Sylvan / Mountain Fae</a></td>
+            <td>Sylmaran Deepwood; Greymantis Range</td>
+            <td>Unrecorded</td>
+            <td>Sylvari</td>
+            <td>Outside Six-Fold tradition</td>
+            <td>Conclave / elder hierarchies</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- HISTORICAL PEOPLES -->
+    <div class="article-section" id="historical">
+      <h2>Historical Peoples</h2>
+
+      <div class="lore-block" id="yurma">
+        <span class="lore-tag">Historical · Ancestors of the Ormandish</span>
+        <h3>The Yurma Shepherd Tribes</h3>
+        <p>Long before the founding of the Realm, the high plateaus north of the <a href="index.html" class="wikilink">Greymantis Range</a> were home to the <strong>Yurma</strong> — loosely affiliated clans of pastoral herders who followed seasonal grazing routes across what is now northern Thorneshire and Valdenmere. Yurma society was organized around extended kin-groups led by elected clan-elders, with disputes settled through a tradition of oral arbitration that scholars believe directly informs the Realm's modern emphasis on documented precedent and formal council.</p>
+        <p>Beginning roughly a millennium before the Common Age, sustained drought in the northern plateaus drove successive waves of Yurma clans southward into the fertile Heartland Plains. Over generations, the wandering clan-elders settled into fixed seats, their kin-groups becoming the first hereditary chiefdoms — the direct ancestors of the petty kingdoms of the <a href="index.html" class="wikilink">Shattered Thrones</a> era, and ultimately of the <a href="royal-houses.html" class="wikilink">Royal Houses</a> themselves. Many Yurma religious practices, particularly their veneration of sky and weather, were absorbed into what became the Six-Fold Faith's aspects of Wind and Light.</p>
+        <p>Few unmixed Yurma communities remain; their descendants are, by and large, indistinguishable from the broader Ormandish population. However, isolated upland communities in northern Thorneshire still observe certain Yurma customs — seasonal herding festivals, woven kin-tokens, and a ceremonial dialect of Old Yurma — and are recognized by ethnographers as the closest living link to the tribes.</p>
+      </div>
+
+      <div class="lore-block" id="tideborn">
+        <span class="lore-tag">Historical · Ancestors of the Garroni</span>
+        <h3>The Tideborn</h3>
+        <p>Predating even the earliest Yurma migrations, the western archipelagos and rocky coastlines along the <a href="index.html" class="wikilink">Craedic Sea</a> were inhabited by a seafaring people whose own name for themselves is lost to history; Ormandish chroniclers, working from fragmentary trade records, refer to them as the <strong>Tideborn</strong>. Unlike the Yurma, the Tideborn left few written records, communicating instead through an elaborate tradition of knot-script — patterns of knotted cord used to record voyages, debts, and oaths, a handful of examples of which survive in the collections of the <a href="#" class="wikilink">Cartographer's Guild</a>.</p>
+        <p>The Tideborn maintained scattered island holds rather than a unified state, and resisted absorption into the expanding Yurma-descended kingdoms for centuries through superior seamanship and an intimate knowledge of the archipelago's treacherous currents. Beginning around the time of the <a href="index.html" class="wikilink">First Unification</a>, waves of mainlanders displaced by the era's wars sought refuge among the Tideborn islands, gradually intermarrying with and being absorbed into the existing island communities.</p>
+        <p>The resulting blended culture — Tideborn seacraft and island holds combined with mainland language and metalwork — is the direct ancestor of the modern Garroni.</p>
+      </div>
+    </div>
+
+    <!-- CONTEMPORARY PEOPLES -->
+    <div class="article-section" id="contemporary">
+      <h2>Contemporary Peoples</h2>
+
+      <div class="culture-profile ormandish" id="ormandish">
+        <div class="culture-header">
+          <div class="culture-emblem">⚖</div>
+          <div class="culture-title-block">
+            <div class="culture-name">The Ormandish</div>
+            <div class="culture-tagline">"What is not written is not yet true"</div>
+          </div>
+        </div>
+        <div class="culture-body">
+          <p>The Ormandish are the dominant culture across the majority of the seven countries, descended primarily from the settled <a href="#yurma" class="wikilink">Yurma</a> chiefdoms of the Heartland Plains. Over the centuries following the <a href="index.html" class="wikilink">First Unification</a>, Ormandish society developed its defining characteristic: an extensive, deeply entrenched system of hereditary nobility intertwined with a sprawling written bureaucracy. Where the Yurma settled disputes through oral arbitration among elders, the Ormandish settled them through charters, precedents, and the slow grinding machinery of court and council — a transition scholars term the <em>Long Codification</em>, a process not fully complete until well after the <a href="index.html" class="wikilink">Sundering Wars</a>.</p>
+
+          <p>Ormandish identity today is closely bound up with the structures examined elsewhere in this Codex: the <a href="royal-houses.html" class="wikilink">Royal Houses</a>, the broader <a href="royal-houses.html#peerage" class="wikilink">peerage of Dukes, Margraves, Counts, and Barons</a>, and the Compact's web of law and precedent. Common tongue serves as the everyday language of trade and administration, while High Ormanic — a more formal register descended from ceremonial Yurma speech — remains the language of law, scholarship, and the Six-Fold Faith's liturgy. Ormandish religious practice tends toward orthodox observance of all six Aspects, with regional preferences (Stone in Ironmark, Flame in Emberfall) layered atop a shared core of festivals and rites.</p>
+
+          <p>Socially, Ormandish culture places considerable weight on lineage, written record, and formal title — a tendency outsiders sometimes characterize as obsessive.</p>
+
+          <div class="quote-block">
+            "An Ormandish merchant would rather lose the sale than fail to file the paperwork for it."
+            <cite>— Common saying among Garroni traders</cite>
+          </div>
+        </div>
+        <div class="culture-meta">
+          <div class="culture-meta-item"><span class="meta-label">Population</span><span class="meta-value">~11.5 million</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Languages</span><span class="meta-value">Common, High Ormanic</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Ancestry</span><span class="meta-value">Yurma Shepherd Tribes</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Structure</span><span class="meta-value">Nobility &amp; Bureaucracy</span></div>
+        </div>
+      </div>
+
+      <div class="culture-profile garroni" id="garroni">
+        <div class="culture-header">
+          <div class="culture-emblem">⚓</div>
+          <div class="culture-title-block">
+            <div class="culture-name">The Garroni</div>
+            <div class="culture-tagline">"The sea keeps its own ledgers"</div>
+          </div>
+        </div>
+        <div class="culture-body">
+          <p>The Garroni are a seafaring people inhabiting the western archipelagos, scattered coastal enclaves, and a handful of contested "Free Ports" along the Craedic coast — territories that fall nominally within <a href="countries.html#craedmoor" class="wikilink">Craedmoor</a>'s borders but have never been fully integrated into Ormandish administrative or legal structures. Descended from the blending of the ancient <a href="#tideborn" class="wikilink">Tideborn</a> with mainland refugee populations, the Garroni maintain a culture defined as much by what it resists as by what it practices.</p>
+
+          <p>Garroni society is organized around ship-crews and island holds rather than noble houses; authority is held by <strong>Wave-Captains</strong> (commanders of trading or raiding vessels) and <strong>Tide-Mothers</strong> (matriarchal heads of island holds, responsible for resource allocation, dispute resolution, and — when necessary — alliance-making between holds). There is no Garroni monarch, and no single Garroni settlement holds authority over the others; cooperation between holds is negotiated case-by-case, typically at gatherings called <strong>Tide-Moots</strong>.</p>
+
+          <p>The Garroni relationship with the rest of the Realm is famously, deliberately ambiguous. Garroni vessels engage extensively in trade — Craedmoor's merchant houses depend on Garroni shipping for routes through the archipelago's most dangerous channels — while simultaneously maintaining a long tradition of raiding vessels that fail to observe Garroni-recognized "courtesies": informal but rigorously enforced rules governing which ships may pass unmolested. The <a href="#" class="wikilink">High Council</a> has, at various points, attempted to formally classify Garroni raiding as piracy under Compact law; the Garroni response, recorded in the proceedings of the 644 A.C. council session, was reportedly to ask which specific Garroni government the Council intended to serve the ruling to.</p>
+
+          <p>Garroni spiritual practice centers overwhelmingly on the Sea Aspect of the <a href="index.html" class="wikilink">Six-Fold Faith</a>, observed through a distinct set of rites — the <strong>Garroni Rite</strong> — that mainland clergy regard as unorthodox at best. The Garroni Cant, a language related to but substantially diverged from Common, remains the primary tongue of most island holds, though most Wave-Captains and Tide-Mothers are fluent in Common for trade purposes.</p>
+
+          <div class="quote-block teal">
+            "Sign nothing you cannot throw overboard."
+            <cite>— Traditional Garroni saying, often quoted (with some irritation) by Ormandish trade negotiators</cite>
+          </div>
+        </div>
+        <div class="culture-meta">
+          <div class="culture-meta-item"><span class="meta-label">Population</span><span class="meta-value">~1.4 million</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Languages</span><span class="meta-value">Garroni Cant, Common</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Ancestry</span><span class="meta-value">The Tideborn</span></div>
+          <div class="culture-meta-item"><span class="meta-label">Structure</span><span class="meta-value">Ship-crews &amp; Island Holds</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MINOR PEOPLES -->
+    <div class="article-section" id="minor">
+      <h2>Minor &amp; Regional Peoples</h2>
+
+      <div class="minor-people">
+        <div class="minor-card" id="emberkin">
+          <h3>The Emberkin</h3>
+          <p>The arid eastern plateaus of <a href="countries.html#emberfall" class="wikilink">Emberfall</a>, beyond the irrigated valleys governed from Char Citadel, are home to the Emberkin — nomadic herding clans who travel the plateaus following routes tied to seasonal rains and the migration of fire-glass-producing volcanic vents. Emberkin society shares linguistic and religious roots with the broader Ormandish population — they too venerate the Flame Aspect — but have resisted settlement and the extension of Embervane administrative authority for generations. Relations with House Embervane have ranged from uneasy trade partnership to open conflict, a tension <a href="royal-houses.html" class="wikilink">Duke Tobias Vane</a> of the Ember Reaches has more recently sought to ease through direct diplomacy.</p>
+        </div>
+        <div class="minor-card" id="fae">
+          <h3>The Fae Peoples</h3>
+          <p>The Mountain Fae of the Greymantis Range and the Sylvan Fae of the Sylmaran Deepwood are not considered "peoples" in the same administrative sense as the Ormandish or Garroni — neither holds Compact citizenship as such — but their influence on Ormandian culture, particularly in <a href="countries.html#sylmara" class="wikilink">Sylmara</a>, is profound. The Sylvan Fae's representation on the <a href="#" class="wikilink">Fae Conclave</a> gives them a unique formal political role unmatched by any other non-Ormandish people in the Realm.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATIONS -->
+    <div class="article-section" id="relations">
+      <h2>Cultural Relations &amp; Tensions</h2>
+      <p>The defining cultural tension in contemporary Ormandia remains the unresolved status of Garroni territories within the Compact framework. Successive Margraves of the Saltmere Reaches — currently <a href="royal-houses.html#saltmere" class="wikilink">Margrave Bryndor Saltmere</a> — have served as the de facto channel for negotiation between Craedmoor's government and the Garroni holds, maintaining an informal peace that neither side has any interest in formalizing, since formalization would require one side to make concessions the other has never offered.</p>
+      <p>A second, quieter tension concerns the slow erosion of pre-Ormandish cultural practices — Yurma customs in northern Thorneshire, Tideborn knot-script among older Garroni Tide-Mothers — as Common tongue and Ormandish administrative practice spread even into traditionally resistant communities. Ethnographers at the <a href="#" class="wikilink">Valdenmere Academy</a> have in recent decades made increasingly urgent calls for the documentation of these traditions before living memory of them fades entirely.</p>
+
+      <div class="divider">⚜ ✦ ⚜</div>
+    </div>
+
+  </main>
+
+  <aside id="sidebar-right">
+    <div class="side-widget">
+      <h4>Quick Facts</h4>
+      <ul>
+        <li>2 major contemporary peoples</li>
+        <li>2 documented historical ancestor peoples</li>
+        <li>Garroni recognize no central authority</li>
+        <li>Ormandish peerage detailed in Royal Houses</li>
+      </ul>
+    </div>
+    <div class="side-widget">
+      <h4>See Also</h4>
+      <a href="royal-houses.html" class="cat-link">⚜ Royal Houses</a>
+      <a href="royal-houses.html#peerage" class="cat-link">📜 The Peerage</a>
+      <a href="countries.html" class="cat-link">⚑ Countries</a>
+      <a href="index.html" class="cat-link">🏰 Ormandia</a>
+    </div>
+  </aside>
+</div>
+
+<footer id="site-footer">
+  <p>The Realm Codex &nbsp;·&nbsp; A compendium of all knowledge pertaining to Ormandia and the Known World<br>
+  <a href="index.html">Home</a> · <a href="countries.html">Countries</a> · <a href="royal-houses.html">Royal Houses</a> · <a href="cultures.html">Cultures</a>
+  </p>
+</footer>
+</body>
+</html>
