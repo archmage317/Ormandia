@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Houses of the Realm — The Realm Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0cc;
+    --ink: #1a1410;
+    --ink-faded: #4a3f30;
+    --red: #8b1a1a;
+    --gold: #c9963a;
+    --gold-light: #e8c060;
+    --border: #b8a882;
+    --sidebar-bg: #ede8dc;
+    --link: #5c1f1f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--parchment); color: var(--ink); font-family: 'Crimson Text', serif; font-size: 17px; line-height: 1.7; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); }
+  #site-header { background: var(--ink); border-bottom: 3px solid var(--gold); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .site-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 600; color: var(--gold-light); text-decoration: none; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+  .header-nav { display: flex; gap: 20px; }
+  .header-nav a { color: var(--parchment-dark); text-decoration: none; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; opacity: 0.8; transition: opacity 0.2s, color 0.2s; }
+  .header-nav a:hover, .header-nav a.active { opacity: 1; color: var(--gold-light); }
+  #layout { display: grid; grid-template-columns: 220px 1fr 200px; gap: 0; max-width: 1280px; margin: 0 auto; min-height: calc(100vh - 56px); }
+  #sidebar-left { background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 24px 16px; font-size: 14px; }
+  #sidebar-left h4 { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faded); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .nav-section { margin-bottom: 24px; }
+  .nav-section ul { list-style: none; }
+  .nav-section ul li { margin-bottom: 5px; }
+  .nav-section ul li a { color: var(--link); text-decoration: none; font-family: 'Crimson Text', serif; font-size: 15px; line-height: 1.4; transition: color 0.2s; display: block; padding: 2px 4px; border-radius: 2px; }
+  .nav-section ul li a:hover { color: var(--red); background: rgba(139,26,26,0.06); }
+  .nav-section ul li a.active { font-weight: 600; color: var(--red); }
+  #main { padding: 32px 40px; border-right: 1px solid var(--border); }
+  .page-title { font-family: 'IM Fell English', serif; font-size: 42px; line-height: 1.1; color: var(--ink); margin-bottom: 4px; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+  .page-subtitle { font-style: italic; color: var(--ink-faded); font-size: 15px; margin-bottom: 24px; }
+  .toc { display: inline-block; background: var(--sidebar-bg); border: 1px solid var(--border); padding: 14px 20px; margin-bottom: 24px; min-width: 220px; }
+  .toc-title { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; margin-bottom: 8px; letter-spacing: 1px; }
+  .toc ol { padding-left: 18px; }
+  .toc li { margin-bottom: 3px; }
+  .toc a { color: var(--link); text-decoration: none; font-size: 14px; }
+  .toc a:hover { color: var(--red); text-decoration: underline; }
+  .toc .toc-sub { padding-left: 16px; list-style: none; }
+  .toc .toc-sub li::before { content: "· "; color: var(--gold); }
+  .article-section { margin-bottom: 32px; }
+  .article-section h2 { font-family: 'IM Fell English', serif; font-size: 26px; color: var(--ink); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 16px; }
+  p { margin-bottom: 14px; }
+  a.wikilink { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(92,31,31,0.3); transition: color 0.15s, border-color 0.15s; }
+  a.wikilink:hover { color: var(--red); border-bottom-color: var(--red); }
+
+  /* Section labels */
+  .tier-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--ink);
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+
+  /* House entries */
+  .house-entry {
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    background: var(--sidebar-bg);
+  }
+  .house-header {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to right, #2a1f10, #3a2c1a);
+  }
+  .house-sigil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    padding: 16px;
+    border-right: 1px solid var(--gold);
+    background: rgba(0,0,0,0.2);
+  }
+  .house-title-block {
+    padding: 14px 20px;
+  }
+  .house-name {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .house-words {
+    font-style: italic;
+    color: var(--parchment-dark);
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+  .house-country {
+    padding: 14px 20px;
+    text-align: right;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .house-country span { color: var(--parchment-dark); font-family: 'Crimson Text', serif; font-size: 14px; letter-spacing: 0; }
+  .house-body { padding: 16px 20px; font-size: 15.5px; }
+  .house-meta {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .house-meta-item {
+    flex: 1;
+    padding: 8px 14px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .house-meta-item:last-child { border-right: none; }
+  .meta-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-faded); display: block; }
+  .meta-value { color: var(--ink); font-weight: 600; display: block; margin-top: 2px; }
+
+  .great-house .house-entry { border-color: var(--gold); }
+  .great-house .house-entry .house-header { background: linear-gradient(to right, #1a0f02, #2e1e08); }
+
+  /* Peerage section */
+  .peerage-note {
+    background: rgba(201,150,58,0.1);
+    border: 1px solid var(--gold);
+    padding: 16px 20px;
+    margin: 16px 0 26px;
+    font-size: 15px;
+    color: var(--ink-faded);
+  }
+  .peerage-note strong { color: var(--ink); font-style: normal; }
+  .peerage-note p { margin-bottom: 10px; }
+  .peerage-note p:last-child { margin-bottom: 0; }
+
+  .rank-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 19px;
+    letter-spacing: 1px;
+    color: var(--red);
+    margin: 30px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .rank-heading:first-of-type { margin-top: 10px; }
+
+  .noble-card {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .noble-card.margrave { border-left-color: var(--red); }
+  .noble-card.lesser { border-left-color: var(--ink-faded); }
+  .noble-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .noble-rank {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    background: var(--ink);
+    padding: 3px 9px;
+  }
+  .noble-name {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .noble-title {
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 14px;
+    flex-basis: 100%;
+  }
+  .noble-card p { margin-bottom: 8px; font-size: 15px; }
+  .noble-card p:last-of-type { margin-bottom: 0; }
+  .noble-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-size: 12px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.5px;
+    color: var(--ink-faded);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .divider { text-align: center; color: var(--gold); font-size: 20px; margin: 20px 0; letter-spacing: 8px; }
+
+  #sidebar-right { padding: 24px 16px; font-size: 14px; }
+  .side-widget { background: var(--sidebar-bg); border: 1px solid var(--border); padding: 14px; margin-bottom: 20px; }
+  .side-widget h4 { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--red); margin-bottom: 10px; text-transform: uppercase; }
+  .side-widget ul { list-style: none; }
+  .side-widget ul li { padding: 5px 0; border-bottom: 1px solid var(--parchment-dark); font-size: 13px; color: var(--ink-faded); }
+  .side-widget ul li:last-child { border-bottom: none; }
+  .cat-link { display: block; background: var(--ink); color: var(--gold-light); text-decoration: none; padding: 8px 12px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; margin-bottom: 6px; transition: background 0.2s; border: 1px solid var(--gold); }
+  .cat-link:hover { background: var(--red); border-color: var(--red); }
+  #site-footer { background: var(--ink); color: var(--parchment-dark); text-align: center; padding: 24px; font-size: 13px; border-top: 3px solid var(--gold); }
+  #site-footer a { color: var(--gold-light); text-decoration: none; }
+  @media (max-width: 960px) {
+    #layout { grid-template-columns: 1fr; }
+    #sidebar-left, #sidebar-right { display: none; }
+    #main { padding: 24px 20px; }
+    .house-header { grid-template-columns: 64px 1fr; }
+    .house-country { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <a href="index.html" class="site-logo"><span>⚜</span> The Realm Codex</a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="countries.html">Countries</a>
+    <a href="royal-houses.html" class="active">Royal Houses</a>
+    <a href="cultures.html">Cultures</a>
+  </nav>
+</header>
+
+<div id="layout">
+  <aside id="sidebar-left">
+    <div class="nav-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Main Page</a></li>
+        <li><a href="countries.html">Countries</a></li>
+        <li><a href="royal-houses.html" class="active">Royal Houses</a></li>
+        <li><a href="cultures.html">Cultures</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Great Houses</h4>
+      <ul>
+        <li><a href="#valdenmyr">House Valdenmyr</a></li>
+        <li><a href="#thornecroft">House Thornecroft</a></li>
+        <li><a href="#ashenvale">House Ashenvale</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Noble Houses</h4>
+      <ul>
+        <li><a href="#merwynd">House Merwynd</a></li>
+        <li><a href="#embervane">House Embervane</a></li>
+        <li><a href="#sylvaran">House Sylvaran</a></li>
+        <li><a href="#ironwall">House Ironwall</a></li>
+        <li><a href="#silvermoore">House Silvermoore</a></li>
+        <li><a href="#dunharrow">House Dunharrow</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>The Peerage</h4>
+      <ul>
+        <li><a href="#dukes">Dukes & Duchesses</a></li>
+        <li><a href="#margraves">Margraves</a></li>
+        <li><a href="#counts">Counts & Barons</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main id="main">
+    <h1 class="page-title">Royal Houses of the Realm</h1>
+    <p class="page-subtitle"><em>From the Realm Codex, the free compendium of all knowledge pertaining to the Known World</em></p>
+
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#great-houses">The Three Great Houses</a></li>
+        <li><a href="#noble-houses">The Noble Houses</a></li>
+        <li><a href="#peerage">The Peerage of the Realm</a></li>
+        <li><a href="#succession">Succession Law</a></li>
+        <li><a href="#alliances">Current Alliances</a></li>
+      </ol>
+    </div>
+
+    <div class="article-section" id="overview">
+      <p>The <strong>Royal Houses of the Realm</strong> are the twelve noble bloodlines formally recognized by the <a href="#" class="wikilink">High Council of Thrones</a> as holding hereditary rights within <a href="index.html" class="wikilink">Ormandia</a>. These rights include — but are not limited to — territorial sovereignty, the right to raise private armies, preferential access to positions in the <a href="#" class="wikilink">Arcane Collegium</a>, and representation on the High Council.</p>
+
+      <p>The houses are divided into two formal tiers. The three <strong>Great Houses</strong> — Valdenmyr, Thornecroft, and Ashenvale — hold permanent seats on the High Council and bear historical precedence by virtue of their role in the founding of the Realm. The nine <strong>Noble Houses</strong> hold rotating representation and govern their respective territories with considerable but not unlimited autonomy.</p>
+
+      <p>The relationships between houses — whether bonds of marriage, commerce, arcane alliance, or bitter rivalry — constitute the principal drama of Ormandian politics. Scholars at the <a href="#" class="wikilink">Valdenmere Academy of Statecraft</a> have famously described the web of house relations as "a living document that rewrites itself every generation."</p>
+    </div>
+
+    <!-- GREAT HOUSES -->
+    <div class="article-section" id="great-houses">
+      <h2>The Three Great Houses</h2>
+      <div class="tier-label">⚜ Great Houses — Founding Bloodlines</div>
+
+      <div class="great-house">
+        <div class="house-entry" id="valdenmyr">
+          <div class="house-header">
+            <div class="house-sigil">🏰</div>
+            <div class="house-title-block">
+              <div class="house-name">House Valdenmyr</div>
+              <div class="house-words">"The Crown Endures"</div>
+            </div>
+            <div class="house-country">COUNTRY<span>Valdenmere</span></div>
+          </div>
+          <div class="house-body">
+            <p>The oldest of the Great Houses and the most politically powerful, House Valdenmyr traces its lineage directly to <a href="#" class="wikilink">King Aldric the Undying</a>, founder of the Realm. Their ancestral seat is the <a href="#" class="wikilink">Citadel of Valdenmere</a>, a fortress-palace that has never been breached in its eight centuries of existence. The Valdenmyr sigil — a golden crown on black — is recognized across the Known World as the symbol of the Realm itself.</p>
+            <p>The current head of house is <strong>Queen Elowen Valdenmyr III</strong>, a politically shrewd and reportedly cold-blooded ruler who has maintained the house's position through a combination of strategic marriages, carefully engineered trade agreements, and a formidable intelligence network known informally as the <a href="#" class="wikilink">Crown's Shadow</a>. She has ruled for 22 years and shows no sign of weakening.</p>
+            <p>House Valdenmyr is notable for producing a disproportionate number of skilled administrators and diplomats, but relatively few military commanders or arcane practitioners. Their power lies in governance, not force.</p>
+          </div>
+          <div class="house-meta">
+            <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Queen Elowen III</span></div>
+            <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Citadel of Valdenmere</span></div>
+            <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Gold Crown on Black</span></div>
+            <div class="house-meta-item"><span class="meta-label">Founded</span><span class="meta-value">Before Common Age</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="great-house">
+        <div class="house-entry" id="thornecroft">
+          <div class="house-header">
+            <div class="house-sigil">🦌</div>
+            <div class="house-title-block">
+              <div class="house-name">House Thornecroft</div>
+              <div class="house-words">"Through Thorn and Stone"</div>
+            </div>
+            <div class="house-country">COUNTRY<span>Thorneshire</span></div>
+          </div>
+          <div class="house-body">
+            <p>House Thornecroft governs the vast agricultural heartland of <a href="countries.html" class="wikilink">Thorneshire</a> and is, by many measures, the richest house in the Realm by virtue of sheer land holdings. The Thornecrofts are famously stubborn, legendarily proud, and possessed of a cavalry tradition that has broken armies on three separate occasions. Their sigil — a black stag on grey — is considered a symbol of resilience.</p>
+            <p>The house's current patriarch, <strong>Lord Aldous Thornecroft</strong>, is an elderly but sharp-minded man whose primary concern is the passing of a new grain taxation treaty that would significantly benefit Thorneshire's farmers. He is in poor health and has three children whose competing ambitions make succession a matter of considerable anxiety in the Thorneshire court.</p>
+            <p>House Thornecroft maintains a tense but stable rivalry with <a href="#ironwall" class="wikilink">House Ironwall</a>, stemming from a centuries-old border dispute that technically remains unresolved. They are formally allied with <a href="#ashenvale" class="wikilink">House Ashenvale</a> through a marriage bond established two generations ago.</p>
+          </div>
+          <div class="house-meta">
+            <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Lord Aldous Thornecroft</span></div>
+            <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Thornhold Keep</span></div>
+            <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Black Stag on Grey</span></div>
+            <div class="house-meta-item"><span class="meta-label">Founded</span><span class="meta-value">~50 B.C.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="great-house">
+        <div class="house-entry" id="ashenvale">
+          <div class="house-header">
+            <div class="house-sigil">🌑</div>
+            <div class="house-title-block">
+              <div class="house-name">House Ashenvale</div>
+              <div class="house-words">"Memory Outlasts All"</div>
+            </div>
+            <div class="house-country">COUNTRY<span>Ashenvale</span></div>
+          </div>
+          <div class="house-body">
+            <p>The oldest bloodline in Ormandia, House Ashenvale's genealogical records extend back nearly a thousand years — further than any other noble family in the Known World. Scholars debate whether the house's legendary longevity is attributable to good fortune, careful record-keeping, or the hereditary arcane sensitivity that the Ashenvale bloodline indisputably carries.</p>
+            <p>The current head is <strong>Queen Seraphine Ashenvale</strong>, a woman in her mid-forties who is believed by the <a href="#" class="wikilink">Arcane Collegium</a> to be one of the most naturally gifted Threadworkers alive, though she has never formally trained. She rules a country of scholars, archivists, and careful people with a patience and quiet authority that most who meet her find unsettling.</p>
+            <p>House Ashenvale's primary concern in current politics is the protection of the <a href="#" class="wikilink">Deepwood Archives</a> — a vast underground repository of historical and arcane texts housed beneath their ancestral seat, <a href="#" class="wikilink">Ashencrown</a> — from what Queen Seraphine believes is an Ironmark-backed effort to access restricted arcane knowledge.</p>
+          </div>
+          <div class="house-meta">
+            <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Queen Seraphine</span></div>
+            <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Ashencrown</span></div>
+            <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Silver Ash Tree on Black</span></div>
+            <div class="house-meta-item"><span class="meta-label">Founded</span><span class="meta-value">Before Records</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOBLE HOUSES -->
+    <div class="article-section" id="noble-houses">
+      <h2>The Noble Houses</h2>
+      <div class="tier-label">Noble Houses — Nine Recognized Bloodlines</div>
+
+      <div class="house-entry" id="merwynd">
+        <div class="house-header">
+          <div class="house-sigil">⚓</div>
+          <div class="house-title-block">
+            <div class="house-name">House Merwynd</div>
+            <div class="house-words">"Fortune Follows the Brave"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Craedmoor</span></div>
+        </div>
+        <div class="house-body">
+          <p>The ruling house of <a href="countries.html" class="wikilink">Craedmoor</a>, House Merwynd built its power not through conquest but commerce. Their maritime fleets control an estimated 40% of all sea trade passing through Ormandian waters. The current head, <strong>Duke Lorcan Merwynd</strong>, is a charming and ruthless negotiator who has recently brokered a controversial exclusive trading agreement with a foreign power — a move that has drawn significant criticism from the High Council.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Duke Lorcan Merwynd</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Harbour Reach</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Gold Anchor on Blue</span></div>
+        </div>
+      </div>
+
+      <div class="house-entry" id="embervane">
+        <div class="house-header">
+          <div class="house-sigil">🔥</div>
+          <div class="house-title-block">
+            <div class="house-name">House Embervane</div>
+            <div class="house-words">"From the Flame, Reborn"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Emberfall</span></div>
+        </div>
+        <div class="house-body">
+          <p>Rulers of the southern country of <a href="countries.html" class="wikilink">Emberfall</a>, House Embervane is a passionate and sometimes volatile noble family deeply intertwined with the <a href="#" class="wikilink">Six-Fold Faith</a>'s Flame Aspect. Succession crises have plagued the house for three generations; the current ruler, <strong>King Cassiel Embervane</strong>, came to power following the disputed death of his older brother and faces ongoing challenges to his legitimacy from a cousin who controls significant southern territory.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">King Cassiel Embervane</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Char Citadel</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">White Flame on Red</span></div>
+        </div>
+      </div>
+
+      <div class="house-entry" id="sylvaran">
+        <div class="house-header">
+          <div class="house-sigil">🌿</div>
+          <div class="house-title-block">
+            <div class="house-name">House Sylvaran</div>
+            <div class="house-words">"Root and Bough, We Stand"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Sylmara</span></div>
+        </div>
+        <div class="house-body">
+          <p>The human half of <a href="countries.html" class="wikilink">Sylmara</a>'s dual governance, House Sylvaran holds a uniquely complex position — sharing authority with the <a href="#" class="wikilink">Fae Conclave</a> and serving as the official interface between Sylmara and the rest of the Realm. Their members are often multilingual (Common, Sylvari, and High Ormanic at minimum) and unusually long-lived by human standards, a trait attributed by scholars to their centuries of proximity to Fae magic. The current co-ruler is <strong>Princess Elara Sylvaran</strong>, a young woman navigating her first decade of power with remarkable poise.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Princess Elara Sylvaran</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Greenbough Hall</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Silver Leaf on Green</span></div>
+        </div>
+      </div>
+
+      <div class="house-entry" id="ironwall">
+        <div class="house-header">
+          <div class="house-sigil">⚔</div>
+          <div class="house-title-block">
+            <div class="house-name">House Ironwall</div>
+            <div class="house-words">"Unbroken"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Ironmark</span></div>
+        </div>
+        <div class="house-body">
+          <p>Rulers of <a href="countries.html" class="wikilink">Ironmark</a> and commanders of the Realm's most feared military force, House Ironwall is a house of soldiers. For over three centuries, every head of house has held a military rank before assuming governance. The current head, <strong>Marshal-King Drevyn Ironwall</strong>, is a decorated veteran of two major border conflicts and a man widely regarded as the most dangerous individual currently seated on the High Council. His cold war with <a href="#thornecroft" class="wikilink">House Thornecroft</a> — and his suspected interest in the <a href="#" class="wikilink">Deepwood Archives</a> — are sources of significant concern to watchers of Ormandian politics.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Marshal-King Drevyn</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Fortress Irongate</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Black Sword on Iron</span></div>
+        </div>
+      </div>
+
+      <div class="house-entry" id="silvermoore">
+        <div class="house-header">
+          <div class="house-sigil">✦</div>
+          <div class="house-title-block">
+            <div class="house-name">House Silvermoore</div>
+            <div class="house-words">"Stars Guide the Worthy"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Valdenmere (Minor)</span></div>
+        </div>
+        <div class="house-body">
+          <p>A minor house by territorial standards, House Silvermoore punches far above its weight due to its extraordinary concentration of arcane talent. Based in the university city of <a href="#" class="wikilink">Spellar's Mount</a> within Valdenmere, the Silvermoores have provided more faculty members to the <a href="#" class="wikilink">Arcane Collegium</a> than any other noble house. The current head, <strong>Archmagister Lyrien Silvermoore</strong>, simultaneously holds the chairmanship of the Collegium — a combination of power that makes other houses quietly nervous.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Archmagister Lyrien</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Spellar's Mount</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Silver Star on Midnight Blue</span></div>
+        </div>
+      </div>
+
+      <div class="house-entry" id="dunharrow">
+        <div class="house-header">
+          <div class="house-sigil">🗡</div>
+          <div class="house-title-block">
+            <div class="house-name">House Dunharrow</div>
+            <div class="house-words">"In Shadow, Safety"</div>
+          </div>
+          <div class="house-country">COUNTRY<span>Ashenvale (Minor)</span></div>
+        </div>
+        <div class="house-body">
+          <p>One of the more enigmatic houses in the Realm, House Dunharrow governs a remote northern territory of Ashenvale known for its moors, its ancient standing stones, and an unusually high rate of arcane incidents. The house keeps few public records, maintains minimal presence at the High Council, and is periodically the subject of dark rumours — few of which have ever been substantiated. The current head's name is recorded in Compact documents as <strong>Lord Caelan Dunharrow</strong>, though he has not been seen publicly in seven years.</p>
+        </div>
+        <div class="house-meta">
+          <div class="house-meta-item"><span class="meta-label">Current Head</span><span class="meta-value">Lord Caelan Dunharrow</span></div>
+          <div class="house-meta-item"><span class="meta-label">Seat</span><span class="meta-value">Dunharrow Moor Keep</span></div>
+          <div class="house-meta-item"><span class="meta-label">Sigil</span><span class="meta-value">Grey Dagger on Black</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PEERAGE -->
+    <div class="article-section" id="peerage">
+      <h2>The Peerage of the Realm</h2>
+
+      <div class="peerage-note">
+        <p>Below the twelve <a href="#great-houses" class="wikilink">Royal Houses</a>, the lands of Ormandia are subdivided among a broader peerage of <strong>Dukes</strong>, <strong>Margraves</strong>, <strong>Counts</strong>, and <strong>Barons</strong> (and their female equivalents — Duchesses, Margravines, Countesses, and Baronesses), each owing fealty, taxation, and in most cases levied troops to the ruling house of their country. None hold a seat on the High Council in their own right, but several of the figures below wield influence — through wealth, military command, arcane talent, or sheer longevity in office — that rivals the lesser Royal Houses themselves.</p>
+        <p><strong>Margraves</strong> occupy a special position within this hierarchy. Their titles are traditionally hereditary military commands over the Realm's border marches — the Greymantis frontier, the Thornwall, and the western archipelago among them — and carry standing martial authority unusual for the peerage, granted in exchange for the burden, expense, and danger of frontier defense.</p>
+      </div>
+
+      <h3 class="rank-heading" id="dukes">Dukes &amp; Duchesses</h3>
+
+      <div class="noble-card">
+        <div class="noble-header">
+          <span class="noble-rank">Duchess</span>
+          <span class="noble-name">Maren Ashgrove</span>
+          <span class="noble-title">Duchess of Ashgrove, Warden of the Deepwood Archives</span>
+        </div>
+        <p>A cousin of <a href="#ashenvale" class="wikilink">Queen Seraphine Ashenvale</a>, Duchess Maren holds one of the most quietly consequential offices in the Realm: stewardship of the wards, vaults, and reading-halls of the <a href="#" class="wikilink">Deepwood Archives</a> beneath Ashencrown. Reclusive even by Ashenvale standards, she is said to have read more of the Archive's restricted texts than any living person save the Queen herself — a fact that has not gone unnoticed by <a href="#ironwall" class="wikilink">House Ironwall</a>'s agents.</p>
+        <div class="noble-footer">
+          <span>House Ashenvale (cadet line)</span>
+          <span>Ashenvale</span>
+        </div>
+      </div>
+
+      <div class="noble-card">
+        <div class="noble-header">
+          <span class="noble-rank">Duke</span>
+          <span class="noble-name">Tobias Vane</span>
+          <span class="noble-title">Duke of the Ember Reaches</span>
+        </div>
+        <p>A cadet member of <a href="#embervane" class="wikilink">House Embervane</a>, Duke Tobias governs Emberfall's volatile eastern border with the nomadic <a href="cultures.html#emberkin" class="wikilink">Emberkin</a>. Where his predecessors met Emberkin incursions with cavalry, Tobias has spent the last decade building an unprecedented (and, among Emberfall's traditionalists, deeply controversial) network of trade agreements and seasonal grazing rights with the clans — a policy that has reduced border raids by a reported two-thirds, but which his critics at the Char Citadel court characterize as appeasement.</p>
+        <div class="noble-footer">
+          <span>House Embervane (cadet line)</span>
+          <span>Emberfall</span>
+        </div>
+      </div>
+
+      <div class="noble-card">
+        <div class="noble-header">
+          <span class="noble-rank">Duchess</span>
+          <span class="noble-name">Briallen Thornecroft</span>
+          <span class="noble-title">Duchess of Thornwood</span>
+        </div>
+        <p>The eldest daughter of <a href="#thornecroft" class="wikilink">Lord Aldous Thornecroft</a> and the current holder of Thorneshire's traditional heir-apparent duchy, Briallen is widely regarded as the most politically capable of Aldous's three children — and, by the same measure, the one least favored by Thorneshire's deeply traditionalist court, which has historically resisted female succession to the head of House Thornecroft despite the Compact's Fifth Article. Her management of Thornwood's estates is, by every available measure, the most profitable of any ducal holding in Thorneshire.</p>
+        <div class="noble-footer">
+          <span>House Thornecroft</span>
+          <span>Thorneshire</span>
+        </div>
+      </div>
+
+      <h3 class="rank-heading" id="margraves">Margraves &amp; Margravines (Marcher Lords)</h3>
+
+      <div class="noble-card margrave">
+        <div class="noble-header">
+          <span class="noble-rank">Margravine</span>
+          <span class="noble-name">Isolde Greymantle</span>
+          <span class="noble-title">Margravine of the Greymantis March</span>
+        </div>
+        <p>Hereditary guardian of the northern passes through the <a href="index.html" class="wikilink">Greymantis Range</a>, Margravine Isolde commands the <a href="#" class="wikilink">Greymantle Wardens</a>, an order of mountain rangers tasked with watching for incursions from the <a href="#" class="wikilink">Far Northlands</a>. The Greymantle title has been held by the same family for over twenty generations — longer, by a considerable margin, than any Royal House has held an unbroken line — a fact Margravine Isolde is not shy about mentioning at High Council functions.</p>
+        <div class="noble-footer">
+          <span>Sworn to House Valdenmyr</span>
+          <span>Valdenmere</span>
+        </div>
+      </div>
+
+      <div class="noble-card margrave">
+        <div class="noble-header">
+          <span class="noble-rank">Margrave</span>
+          <span class="noble-name">Cedric Thornwall</span>
+          <span class="noble-title">Margrave of the Thornwall March</span>
+        </div>
+        <p>Warden of Thorneshire's eastern border, directly beneath the <a href="index.html" class="wikilink">Thornwall</a> itself, Margrave Cedric holds what is by reputation the least desirable title in the Realm's peerage — a post few noble families have ever competed for, and which the Thornecrofts have historically assigned to whichever cousin proved least useful at court. Cedric, by most accounts, has taken the assignment more seriously than any Thornwall Margrave in living memory, commissioning the first formal survey of the Thornwall's base in over a century, the findings of which have not been made public.</p>
+        <div class="noble-footer">
+          <span>Sworn to House Thornecroft</span>
+          <span>Thorneshire</span>
+        </div>
+      </div>
+
+      <div class="noble-card margrave" id="saltmere">
+        <div class="noble-header">
+          <span class="noble-rank">Margrave</span>
+          <span class="noble-name">Bryndor Saltmere</span>
+          <span class="noble-title">Margrave of the Saltmere Reaches</span>
+        </div>
+        <p>Overseer of Craedmoor's western archipelago borderlands and the Crown's principal point of contact with the <a href="cultures.html#garroni" class="wikilink">Garroni</a> holds, Margrave Bryndor occupies a position built almost entirely on studied ambiguity. His office maintains a decades-long unwritten understanding with several Garroni Tide-Mothers — tolerance of Garroni autonomy in exchange for Garroni cooperation against raiders who do not observe the customary courtesies. Neither the High Council nor any Tide-Moot has ever been asked to formally acknowledge this arrangement, and Margrave Bryndor has made it a point of personal policy never to write any part of it down.</p>
+        <div class="noble-footer">
+          <span>Sworn to House Merwynd</span>
+          <span>Craedmoor</span>
+        </div>
+      </div>
+
+      <h3 class="rank-heading" id="counts">Counts, Countesses, Barons &amp; Baronesses</h3>
+
+      <div class="noble-card lesser">
+        <div class="noble-header">
+          <span class="noble-rank">Count</span>
+          <span class="noble-name">Roderin Vale</span>
+          <span class="noble-title">Count of Valehollow, Lord Treasurer of the Compact</span>
+        </div>
+        <p>As Lord Treasurer, Count Roderin oversees the Compact's shared treasury and the minting of the <a href="index.html" class="wikilink">Golden Stag</a> from his seat at Valehollow, a small but immensely wealthy county owing to its proximity to Valdenmere's mints. The office of Lord Treasurer is not hereditary, but the Vale family has held it for four consecutive appointments — long enough that several other counts have begun, only half-jokingly, to refer to it as such.</p>
+        <div class="noble-footer">
+          <span>Sworn to House Valdenmyr</span>
+          <span>Valdenmere</span>
+        </div>
+      </div>
+
+      <div class="noble-card lesser">
+        <div class="noble-header">
+          <span class="noble-rank">Baroness</span>
+          <span class="noble-name">Wren Tallow</span>
+          <span class="noble-title">Baroness of Tallowfield</span>
+        </div>
+        <p>The lowest-ranked noble of any note in the Realm, Baroness Wren governs a modest farming county in Thorneshire — and is, nonetheless, among the most discussed figures in recent Ormandian politics. When her tenants organized in protest of grain taxation in the lead-up to what many feared would become a second <a href="#" class="wikilink">Thorneshire Dispute</a>, Baroness Wren negotiated directly with the protest leaders rather than calling for Thornecroft levies, producing the <a href="#" class="wikilink">Tallowfield Accord</a> — a settlement now studied at the Valdenmere Academy of Statecraft as a model of de-escalation, and viewed with considerable suspicion by Lord Aldous Thornecroft's more conservative advisors.</p>
+        <div class="noble-footer">
+          <span>Sworn to House Thornecroft</span>
+          <span>Thorneshire</span>
+        </div>
+      </div>
+
+      <div class="divider">⚜ ✦ ⚜</div>
+    </div>
+
+    <div class="article-section" id="succession">
+      <h2>Succession Law</h2>
+      <p>Succession within the Royal Houses is governed by the <a href="#" class="wikilink">Compact's Fifth Article</a>, which establishes primogeniture as the default inheritance model across the Realm — meaning the eldest child, regardless of gender, inherits the title and primary seat. This represented a significant reform from earlier practice, in which succession laws varied wildly by house and country, a source of frequent conflict.</p>
+      <p>Exceptions exist. Houses may petition the High Council to override the Compact's default succession rules if there is documented evidence of the heir's incapacity, criminal conviction, or declared treachery. The process is slow, contentious, and expensive — by design.</p>
+    </div>
+
+    <div class="article-section" id="alliances">
+      <h2>Current Alliances &amp; Rivalries</h2>
+      <p>As of the current political moment, the primary alliance structures are: the <strong>Valdenmyr–Silvermoore Accord</strong> (arcane and political cooperation), the <strong>Thornecroft–Ashenvale Marriage Bond</strong> (now in its second generation), and the informal <strong>Maritime Compact</strong> between House Merwynd and a coalition of lesser coastal lords. The primary active rivalry is between Houses Ironwall and Thornecroft, with the Ashenvale–Ironwall tension over the Deepwood Archives a secondary but potentially more dangerous friction point.</p>
+      <p>Watchers of Ormandian court politics note with some alarm that the three Great Houses have not convened a joint private council in over a decade — an unusually long gap that some interpret as quiet disunity within the Realm's foundational structure.</p>
+      <div class="divider">⚜ ✦ ⚜</div>
+    </div>
+
+  </main>
+
+  <aside id="sidebar-right">
+    <div class="side-widget">
+      <h4>At a Glance</h4>
+      <ul>
+        <li>3 Great Houses</li>
+        <li>9 Noble Houses</li>
+        <li>7 ruling a country directly</li>
+        <li>5 hold Arcane privileges</li>
+        <li>12 total recognized</li>
+        <li>3 Marcher Margraves</li>
+      </ul>
+    </div>
+    <div class="side-widget">
+      <h4>See Also</h4>
+      <a href="countries.html" class="cat-link">⚑ Countries</a>
+      <a href="cultures.html" class="cat-link">👥 Peoples & Cultures</a>
+      <a href="index.html" class="cat-link">🏰 Ormandia</a>
+      <a href="#" class="cat-link">📜 The Compact</a>
+      <a href="#" class="cat-link">✦ Arcane Collegium</a>
+    </div>
+  </aside>
+</div>
+
+<footer id="site-footer">
+  <p>The Realm Codex &nbsp;·&nbsp; A compendium of all knowledge pertaining to Ormandia and the Known World<br>
+  <a href="index.html">Home</a> · <a href="countries.html">Countries</a> · <a href="royal-houses.html">Royal Houses</a> · <a href="cultures.html">Cultures</a>
+  </p>
+</footer>
+</body>
+</html>
