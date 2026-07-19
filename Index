@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ormandia — The Realm Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0cc;
+    --ink: #1a1410;
+    --ink-faded: #4a3f30;
+    --red: #8b1a1a;
+    --gold: #c9963a;
+    --gold-light: #e8c060;
+    --border: #b8a882;
+    --sidebar-bg: #ede8dc;
+    --link: #5c1f1f;
+    --link-hover: #8b1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Crimson Text', serif;
+    font-size: 17px;
+    line-height: 1.7;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  /* ── Header ── */
+  #site-header {
+    background: var(--ink);
+    border-bottom: 3px solid var(--gold);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .site-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold-light);
+    text-decoration: none;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .site-logo .crest { font-size: 20px; }
+
+  .header-nav { display: flex; gap: 20px; }
+  .header-nav a {
+    color: var(--parchment-dark);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .header-nav a:hover { opacity: 1; color: var(--gold-light); }
+
+  /* ── Layout ── */
+  #layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 200px;
+    gap: 0;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ── Left Sidebar ── */
+  #sidebar-left {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    font-size: 14px;
+  }
+  #sidebar-left h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-section { margin-bottom: 24px; }
+  .nav-section ul { list-style: none; }
+  .nav-section ul li { margin-bottom: 5px; }
+  .nav-section ul li a {
+    color: var(--link);
+    text-decoration: none;
+    font-family: 'Crimson Text', serif;
+    font-size: 15px;
+    line-height: 1.4;
+    transition: color 0.2s;
+    display: block;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+  .nav-section ul li a:hover { color: var(--red); background: rgba(139,26,26,0.06); }
+  .nav-section ul li a.active { font-weight: 600; color: var(--red); }
+
+  /* ── Main Content ── */
+  #main {
+    padding: 32px 40px;
+    border-right: 1px solid var(--border);
+  }
+
+  .page-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 42px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 4px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .page-subtitle {
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  /* Infobox */
+  .infobox {
+    float: right;
+    clear: right;
+    margin: 0 0 20px 28px;
+    width: 260px;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .infobox-title {
+    background: var(--ink);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    text-align: center;
+    padding: 8px 12px;
+    letter-spacing: 1px;
+  }
+  .infobox-image {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #2a1f10, #4a3520, #1a120a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .infobox table { width: 100%; border-collapse: collapse; }
+  .infobox td {
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .infobox td:first-child { font-weight: 600; color: var(--ink-faded); width: 42%; }
+  .infobox td:last-child { color: var(--ink); }
+
+  /* TOC */
+  .toc {
+    display: inline-block;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    min-width: 220px;
+  }
+  .toc-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .toc ol { padding-left: 18px; }
+  .toc li { margin-bottom: 3px; }
+  .toc a { color: var(--link); text-decoration: none; font-size: 14px; }
+  .toc a:hover { color: var(--red); text-decoration: underline; }
+
+  /* Article text */
+  .article-section { margin-bottom: 28px; }
+  .article-section h2 {
+    font-family: 'IM Fell English', serif;
+    font-size: 26px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+  .article-section h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    color: var(--ink-faded);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  p { margin-bottom: 14px; }
+
+  a.wikilink {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(92,31,31,0.3);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  a.wikilink:hover {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+
+  .quote-block {
+    border-left: 3px solid var(--gold);
+    margin: 20px 0;
+    padding: 12px 20px;
+    background: rgba(201,150,58,0.07);
+    font-style: italic;
+    color: var(--ink-faded);
+  }
+  .quote-block cite { display: block; margin-top: 6px; font-size: 13px; font-style: normal; color: var(--ink-faded); }
+
+  /* Right sidebar */
+  #sidebar-right {
+    padding: 24px 16px;
+    font-size: 14px;
+  }
+  .did-you-know {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+  .did-you-know h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .did-you-know ul { list-style: none; }
+  .did-you-know ul li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--parchment-dark);
+    line-height: 1.4;
+    font-size: 13px;
+    color: var(--ink-faded);
+  }
+  .did-you-know ul li:last-child { border-bottom: none; }
+
+  .featured-cat {
+    margin-bottom: 20px;
+  }
+  .featured-cat h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--ink-faded);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .cat-link {
+    display: block;
+    background: var(--ink);
+    color: var(--gold-light);
+    text-decoration: none;
+    padding: 8px 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    transition: background 0.2s;
+    border: 1px solid var(--gold);
+  }
+  .cat-link:hover { background: var(--red); border-color: var(--red); }
+
+  /* Footer */
+  #site-footer {
+    background: var(--ink);
+    color: var(--parchment-dark);
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    border-top: 3px solid var(--gold);
+  }
+  #site-footer a { color: var(--gold-light); text-decoration: none; }
+
+  /* Decorative divider */
+  .divider {
+    text-align: center;
+    color: var(--gold);
+    font-size: 20px;
+    margin: 20px 0;
+    letter-spacing: 8px;
+  }
+
+  .clearfix::after { content: ''; display: table; clear: both; }
+
+  @media (max-width: 960px) {
+    #layout { grid-template-columns: 1fr; }
+    #sidebar-left, #sidebar-right { display: none; }
+    #main { padding: 24px 20px; }
+    .infobox { float: none; width: 100%; margin: 0 0 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <a href="index.html" class="site-logo">
+    <span class="crest">⚜</span> The Realm Codex
+  </a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="countries.html">Countries</a>
+    <a href="royal-houses.html">Royal Houses</a>
+    <a href="cultures.html">Cultures</a>
+  </nav>
+</header>
+
+<div id="layout">
+
+  <!-- Left Sidebar -->
+  <aside id="sidebar-left">
+    <div class="nav-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html" class="active">Main Page</a></li>
+        <li><a href="countries.html">Countries</a></li>
+        <li><a href="royal-houses.html">Royal Houses</a></li>
+        <li><a href="cultures.html">Cultures</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>The Realm</h4>
+      <ul>
+        <li><a href="#">History</a></li>
+        <li><a href="#">Geography</a></li>
+        <li><a href="#">Magic & Lore</a></li>
+        <li><a href="#">Notable Figures</a></li>
+        <li><a href="#">Wars & Conflicts</a></li>
+        <li><a href="#">Languages</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Society</h4>
+      <ul>
+        <li><a href="#">Religion</a></li>
+        <li><a href="#">Trade & Commerce</a></li>
+        <li><a href="#">Military Orders</a></li>
+        <li><a href="#">Guilds</a></li>
+      </ul>
+    </div>
+    <div class="nav-section">
+      <h4>Creatures</h4>
+      <ul>
+        <li><a href="#">Fauna of Ormandia</a></li>
+        <li><a href="#">Dragonkind</a></li>
+        <li><a href="#">The Fae</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="main">
+    <h1 class="page-title">Ormandia</h1>
+    <p class="page-subtitle"><em>From the Realm Codex, the free compendium of all knowledge pertaining to the Known World</em></p>
+
+    <!-- Infobox -->
+    <div class="infobox">
+      <div class="infobox-title">ORMANDIA — THE REALM</div>
+      <div class="infobox-image">🏰</div>
+      <table>
+        <tr><td>Also known as</td><td>The Realm, The Old Kingdom</td></tr>
+        <tr><td>Capital</td><td>Valdenmere</td></tr>
+        <tr><td>Ruling body</td><td>The High Council of Thrones</td></tr>
+        <tr><td>Founded</td><td>Year of the First Flame (3 A.C.)</td></tr>
+        <tr><td>Countries</td><td>7 sovereign nations</td></tr>
+        <tr><td>Royal Houses</td><td>12 recognized houses</td></tr>
+        <tr><td>Population</td><td>~14 million (est.)</td></tr>
+        <tr><td>Languages</td><td>Common, High Ormanic, Sylvari</td></tr>
+        <tr><td>Currency</td><td>The Golden Stag</td></tr>
+      </table>
+    </div>
+
+    <!-- TOC -->
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#geography">Geography & Climate</a></li>
+        <li><a href="#governance">Governance</a></li>
+        <li><a href="#countries">Countries of the Realm</a></li>
+        <li><a href="#houses">Royal Houses</a></li>
+        <li><a href="#culture">Culture & Society</a></li>
+        <li><a href="#magic">Magic & the Arcane</a></li>
+      </ol>
+    </div>
+
+    <div class="clearfix">
+
+    <div class="article-section" id="overview">
+      <p><strong>Ormandia</strong>, commonly referred to as <em>the Realm</em> or <em>the Old Kingdom</em>, is a vast sovereign territory occupying the central and western reaches of the Known World. It is a land of remarkable diversity — from the frost-bitten peaks of the <a href="#" class="wikilink">Greymantis Range</a> in the north to the sun-scorched sandstone plateaus of the <a href="#" class="wikilink">Embermarsh</a> in the far south. Bounded to the west by the <a href="#" class="wikilink">Craedic Sea</a> and to the east by the impassable <a href="#" class="wikilink">Thornwall</a>, Ormandia has for centuries served as the cultural, political, and commercial heart of civilized existence.</p>
+
+      <p>The Realm is not a single nation but rather a <strong>federation of seven sovereign countries</strong>, each governed by its own monarch yet bound together under the ancient <a href="#" class="wikilink">Compact of Valdenmere</a>, signed in the Year 312 of the Common Age. These nations share a unified currency, common law, and — when necessity demands — a combined military under the banner of the <a href="#" class="wikilink">Silver Stag</a>. Day-to-day governance and inter-realm disputes are adjudicated by the <a href="#" class="wikilink">High Council of Thrones</a>, which convenes biannually in the capital city of <a href="#" class="wikilink">Valdenmere</a>.</p>
+
+      <p>Ormandia is home to twelve recognized <a href="royal-houses.html" class="wikilink">Royal Houses of the Realm</a>, whose bloodlines trace back to the era of the <a href="#" class="wikilink">First Flame</a>. These noble families wield considerable political, military, and in some cases arcane power. The most influential among them — <a href="royal-houses.html" class="wikilink">House Valdenmyr</a>, <a href="royal-houses.html" class="wikilink">House Thornecroft</a>, and <a href="royal-houses.html" class="wikilink">House Ashenvale</a> — have shaped the course of the Realm's history more than any war or plague.</p>
+    </div>
+
+    <div class="article-section" id="history">
+      <h2>History</h2>
+
+      <h3>The Age of Sundering (Before Common Age)</h3>
+      <p>Before Ormandia coalesced into its present form, the lands were fragmented among dozens of warring clans and petty kingdoms known collectively as the <a href="#" class="wikilink">Shattered Thrones</a>. This tumultuous era, which scholars date as lasting roughly four centuries, was characterized by near-constant conflict, the collapse of the first magical institutions, and the catastrophic <a href="#" class="wikilink">Night of Falling Stars</a>, an event whose true cause remains debated to this day.</p>
+
+      <h3>The First Unification (3 A.C. – 112 A.C.)</h3>
+      <p>The Realm's founding is traditionally attributed to <a href="#" class="wikilink">King Aldric the Undying</a> of the Valdenmyr bloodline, who in Year 3 of the Common Age forged the first alliance between the three northern kingdoms through a combination of military conquest and strategic marriage. By the time of his death in Year 89 A.C. — a surprisingly mortal end for a man whose epithet suggested otherwise — eight formerly independent territories acknowledged Valdenmyr supremacy.</p>
+
+      <div class="quote-block">
+        "Let all kings who come after me remember: Ormandia is not built of stone and sword alone. It is built of oaths freely given and promises dearly kept."
+        <cite>— King Aldric I, from the <em>Scroll of the First Compact</em></cite>
+      </div>
+
+      <h3>The Sundering Wars (445 A.C. – 512 A.C.)</h3>
+      <p>The greatest internal crisis the Realm has ever faced, the <a href="#" class="wikilink">Sundering Wars</a> erupted following the assassination of Queen Merewyn III and the disputed succession that followed. Four of the seven countries mobilized their armies, and for nearly seventy years the Realm burned. The conflict was ultimately resolved by the <a href="#" class="wikilink">Treaty of the Ember Shore</a>, which established the modern structure of the High Council and redrew several national borders that persist to the present day.</p>
+    </div>
+
+    <div class="article-section" id="geography">
+      <h2>Geography &amp; Climate</h2>
+      <p>Ormandia spans approximately 2.4 million square leagues and encompasses nearly every terrestrial biome known to scholars of the <a href="#" class="wikilink">Cartographer's Guild</a>. The terrain is broadly divisible into five geographic zones: the <strong>Northern Highlands</strong>, the <strong>Heartland Plains</strong>, the <strong>Sylvan Interior</strong>, the <strong>Ember Coast</strong>, and the <strong>Deepmarsh Territories</strong>.</p>
+
+      <p>The <a href="#" class="wikilink">Greymantis Range</a>, which forms the northern spine of the Realm, contains several peaks in excess of 14,000 feet and remains snowbound year-round above 9,000 feet. The range is home to the <a href="#" class="wikilink">Mountain Fae</a> and an unknown number of elder <a href="#" class="wikilink">Stone Wyrms</a>. It is worth noting that the range also serves as a natural barrier against the nomadic peoples of the <a href="#" class="wikilink">Far Northlands</a>, who have on four separate occasions attempted significant incursions into Ormandian territory.</p>
+    </div>
+
+    <div class="article-section" id="governance">
+      <h2>Governance</h2>
+      <p>Ormandia operates under a <strong>federated monarchic system</strong>, sometimes called a <em>council-crown</em> by political scholars. Each of the <a href="countries.html" class="wikilink">Countries of the Realm</a> maintains its own monarch and internal legal system, but all are bound by the overarching authority of the <a href="#" class="wikilink">Compact of Valdenmere</a> in matters of external war, cross-border trade, and arcane regulation.</p>
+
+      <p>The <a href="#" class="wikilink">High Council of Thrones</a> comprises the seven reigning monarchs (or their appointed proxies) alongside three seats reserved for representatives of the <a href="#" class="wikilink">Arcane Collegium</a>, the <a href="#" class="wikilink">Merchant Syndicate</a>, and the <a href="#" class="wikilink">Order of the Silver Stag</a> respectively. Decisions require a supermajority of six votes to pass, a provision specifically designed to prevent any single nation from dominating the others — a lesson painfully learned during the <a href="#" class="wikilink">Sundering Wars</a>.</p>
+    </div>
+
+    <div class="article-section" id="countries">
+      <h2>Countries of the Realm</h2>
+      <p>The Realm is comprised of seven sovereign nations, each with its own history, culture, and ruling tradition. Together they form the political entity known as Ormandia. A full account of each country's geography, history, and noble families may be found in the article <a href="countries.html" class="wikilink">Countries of the Realm</a>.</p>
+
+      <p>The seven countries are: <a href="countries.html" class="wikilink">Valdenmere</a> (the seat of the High Council), <a href="countries.html" class="wikilink">Thorneshire</a> (the largest by landmass), <a href="countries.html" class="wikilink">Ashenvale</a> (the oldest continuous kingdom), <a href="countries.html" class="wikilink">Craedmoor</a> (the primary maritime power), <a href="countries.html" class="wikilink">Emberfall</a> (the southernmost territory), <a href="countries.html" class="wikilink">Sylmara</a> (a forest nation governed partly by Fae custom), and <a href="countries.html" class="wikilink">Ironmark</a> (the preeminent military power of the Realm).</p>
+    </div>
+
+    <div class="article-section" id="houses">
+      <h2>Royal Houses of the Realm</h2>
+      <p>The <a href="royal-houses.html" class="wikilink">Royal Houses of the Realm</a> are the twelve noble bloodlines formally recognized by the High Council as possessing hereditary rights to governance, land, and — in some cases — the practice of restricted arcane arts. Each house bears a distinct sigil, words, and seat.</p>
+
+      <p>The three <em>Great Houses</em> — <a href="royal-houses.html" class="wikilink">House Valdenmyr</a>, <a href="royal-houses.html" class="wikilink">House Thornecroft</a>, and <a href="royal-houses.html" class="wikilink">House Ashenvale</a> — are distinguished from the nine <em>Noble Houses</em> by the scope of their territorial holdings and their unbroken lineage to the era of the First Unification. The current political landscape of the Realm is substantially defined by the alliance and rivalry patterns between these houses, particularly the long-standing cold war between <a href="royal-houses.html" class="wikilink">House Thornecroft</a> and <a href="royal-houses.html" class="wikilink">House Ironwall</a>.</p>
+    </div>
+
+    <div class="article-section" id="culture">
+      <h2>Culture &amp; Society</h2>
+      <p>Ormandian society is broadly stratified into the nobility, the merchant class, the clergy of the <a href="#" class="wikilink">Six-Fold Faith</a>, skilled tradespeople, and the common populace. This hierarchy, while not absolute, is reinforced by law in several of the more conservative countries, particularly <a href="countries.html" class="wikilink">Ironmark</a> and <a href="countries.html" class="wikilink">Ashenvale</a>. In contrast, <a href="countries.html" class="wikilink">Craedmoor</a>'s maritime culture has produced a notably more fluid social structure in which wealth and reputation often outweigh bloodline.</p>
+
+      <p>The dominant religion is the <a href="#" class="wikilink">Six-Fold Faith</a>, a polytheistic tradition venerating six divine aspects — Light, Shadow, Stone, Sea, Wind, and Flame — believed to be the fundamental forces that shaped the world at its inception. Temples to all six aspects can be found in every major city, though regional preferences vary: sea-faring Craedmoor favors the Sea Aspect, while the miners of Ironmark's mountains pray predominantly to Stone.</p>
+
+      <p>The population of Ormandia is not culturally uniform. The two largest contemporary peoples are the <a href="cultures.html" class="wikilink">Ormandish</a> — the bureaucratic, noble-led society descended from the ancient <a href="cultures.html#yurma" class="wikilink">Yurma Shepherd Tribes</a>, and dominant across most of the Realm's institutions — and the <a href="cultures.html#garroni" class="wikilink">Garroni</a>, a seafaring trading (and, by reputation, pirating) people of the western archipelagos who have long resisted absorption into Ormandish administrative structures. A fuller account of these and other peoples of the Realm can be found in <a href="cultures.html" class="wikilink">Peoples of Ormandia</a>.</p>
+    </div>
+
+    <div class="article-section" id="magic">
+      <h2>Magic &amp; the Arcane</h2>
+      <p>Magic in Ormandia is real, regulated, and regarded with a mixture of reverence and deep suspicion. The <a href="#" class="wikilink">Arcane Collegium</a>, headquartered in the university city of <a href="#" class="wikilink">Spellar's Mount</a>, is the sole body authorized by the Compact to license, train, and discipline practitioners of arcane arts. Unlicensed use of magic — particularly combat magic — is a serious criminal offense in all seven countries, punishable by anything from a heavy fine to exile or death depending on the severity.</p>
+
+      <p>Magic draws from a substance scholars call <a href="#" class="wikilink">Threadwork</a> — an invisible lattice of energy that permeates all living and non-living matter. Skilled mages learn to perceive, manipulate, and redirect these threads. Some noble bloodlines, particularly <a href="royal-houses.html" class="wikilink">House Ashenvale</a> and <a href="royal-houses.html" class="wikilink">House Silvermoore</a>, are believed to carry hereditary sensitivity to Threadwork, giving their members a natural aptitude for arcane study.</p>
+
+      <div class="divider">⚜ ✦ ⚜</div>
+    </div>
+
+    </div><!-- clearfix -->
+  </main>
+
+  <!-- Right Sidebar -->
+  <aside id="sidebar-right">
+    <div class="did-you-know">
+      <h4>Did You Know…</h4>
+      <ul>
+        <li>The city of Valdenmere has never fallen to siege in 800 years of recorded history.</li>
+        <li>Sylmara is the only country where Fae citizens may hold public office.</li>
+        <li>The Greymantis Range grows approximately 2 inches taller every century due to arcane tectonic activity.</li>
+        <li>No two Golden Stag coins are minted identically — each bears a unique micro-inscription.</li>
+      </ul>
+    </div>
+    <div class="featured-cat">
+      <h4>Browse by Category</h4>
+      <a href="countries.html" class="cat-link">⚑ Countries</a>
+      <a href="royal-houses.html" class="cat-link">⚜ Royal Houses</a>
+      <a href="cultures.html" class="cat-link">👥 Peoples & Cultures</a>
+      <a href="#" class="cat-link">⚔ Wars & Conflicts</a>
+      <a href="#" class="cat-link">✦ Magic & Arcane</a>
+      <a href="#" class="cat-link">🐉 Creatures</a>
+      <a href="#" class="cat-link">📜 Historical Texts</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer id="site-footer">
+  <p>The Realm Codex &nbsp;·&nbsp; A compendium of all knowledge pertaining to Ormandia and the Known World<br>
+  <a href="index.html">Home</a> · <a href="countries.html">Countries</a> · <a href="royal-houses.html">Royal Houses</a> · <a href="cultures.html">Cultures</a>
+  </p>
+</footer>
+
+</body>
+</html>
